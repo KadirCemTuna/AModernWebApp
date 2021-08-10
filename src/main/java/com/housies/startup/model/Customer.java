@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Document
 @NoArgsConstructor
-public class Customer {
+public class Customer extends BaseModel{
     @Id
     private String id;
     private String name;
@@ -37,5 +37,19 @@ public class Customer {
 
     public Customer(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", gender=" + gender +
+                ", address=" + address +
+                ", orders=" + orders +
+                ", totalSpent=" + totalSpent +
+                ", cdate=" + cdate +
+                '}';
     }
 }

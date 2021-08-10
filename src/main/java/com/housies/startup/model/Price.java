@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class Price {
+public class Price extends BaseModel {
     private GeneralEnumeration.Currency currency;
     private Double amount;
 }
