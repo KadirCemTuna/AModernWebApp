@@ -35,4 +35,7 @@ public class Customer {
         this.cdate = cdate;
     }
 
+    public Customer(String email) {
+        this.email = email;
+    }
 }

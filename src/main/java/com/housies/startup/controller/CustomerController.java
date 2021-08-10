@@ -4,6 +4,7 @@ import com.housies.startup.model.Customer;
 import com.housies.startup.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +22,9 @@ public class CustomerController {
     }
 
 
-    @GetMapping()
-    public Customer createCustomer(){
-        return customerService.createCustomer(new Customer());
+    @GetMapping("/{email}")
+    public Customer createCustomer(@PathVariable(name = "email") String email){
+        return customerService.createCustomer(new Customer(email));
     }
 
     @PutMapping()

@@ -7,9 +7,8 @@ import com.housies.startup.model.Order;
 import com.housies.startup.model.Price;
 import com.housies.startup.repository.CustomerRepository;
 import com.housies.startup.service.CustomerService;
+import com.housies.startup.service.KafkaService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,9 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
     @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
-    private static final String TOPIC = "PLAINTEXT";
+    private KafkaService kafkaService;
 
     @Override
     public Customer createCustomer(Customer request) {
@@ -36,11 +33,10 @@ public class CustomerServiceImpl implements CustomerService {
                 100.0
         );
 
-        String email = "atestkadir@gmail.com";
 
         Customer customer = new Customer(
                 "kadir",
-                email,
+                request.getEmail(),
                 GeneralEnumeration.Gender.MALE,
                 address,
                 new ArrayList<Order>(),
@@ -51,13 +47,9 @@ public class CustomerServiceImpl implements CustomerService {
         Customer savedCustomer = customerRepository.insert(customer);
 
         String message = savedCustomer.getId();
-        kafkaTemplate.send(TOPIC, message);
+        kafkaService.send(message, GeneralEnumeration.TOPIC);
+
 
         return savedCustomer;
-    }
-
-    @KafkaListener(topics = "PLAINTEXT", groupId = "1")
-    public void consume(String message){
-        System.out.println(message);
     }
 }
