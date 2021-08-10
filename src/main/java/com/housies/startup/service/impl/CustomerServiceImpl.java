@@ -46,8 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer savedCustomer = customerRepository.insert(customer);
 
-        String message = savedCustomer.getId();
-        kafkaService.send(message, GeneralEnumeration.TOPIC);
+        kafkaService.send(savedCustomer, GeneralEnumeration.TOPIC);
 
 
         return savedCustomer;
